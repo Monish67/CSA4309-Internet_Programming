@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Women Safety Analytics - Index</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f2f2f2;
+            background-image: url('womens safety.jpg');
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        /* Circular SOS button in the center */
+        .sos-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 150px;
+            height: 150px;
+            background-color: green;
+            color: white;
+            font-size: 24px;
+            text-align: center;
+            border: black;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s;
+        }
+        .sos-button:hover {
+            transform: scale(1.05);
+            background-color:red;
+        }
+        .profile {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+        .profile img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 2px solid yellow;
+            object-fit: cover;
+            color: black;
+        }
+        /* Profile container */
+        .profile {
+            width: 07px;                  /* Width of profile box */
+            height: 07px;               
+            background-image: url('profile.png'); /* Background image path */
+            background-size: cover;        /* Ensures image covers the box */
+            background-position: center;   /* Centers the image */
+            background-repeat: no-repeat;  /* Prevents the image from repeating */
+            border-radius: 50px;           /* Optional rounded corners */
+            color: white;  
+            border: 3px solid black; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content:center;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds shadow for a better look */
+        }
+
+        /* Profile image styling */
+        .profile img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;            /* Makes the image circular */
+            border: 2px solid black;       /* Optional border around profile picture */
+            margin-bottom: 0px;
+        }
+         /* Styling for the left-side links container */
+         .left-link-container {
+            position: fixed; /* Keeps the container fixed on the left */
+            top: 50px;       /* Distance from the top of the page */
+            left: 10px;      /* Distance from the left edge of the page */
+        }
+
+        /* Styling for each individual link */
+        .left-link {
+            display: block;          /* Places each link on a new line */
+            padding: 10px 10px;      /* Adds padding inside the links */
+            background-color: #4CAF50; /* Background color */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            margin-top: 50px;       /* Adds space between the links */
+        }
+
+        .left-link:hover {
+            background-color: #45a049; /* Hover effect */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Profile Image on the top-left -->
+        <div class="profile">
+            <a href="profile.html">
+                <img src="Car.jpeg" alt="Profile Image">
+            </a>
+            <!-- Left-side links container -->
+             <div class="left-link-container">
+    <a href="https://go.screenpal.com/watch/cZQDjDVSfQf" class="left-link">Emergency Kit Working Process</a>
+    <a href="https://go.screenpal.com/watch/cZQDjDVSfQn" class="left-link">Camera Working Process</a>
+        </div>
+        </div>
+        <!-- Circular SOS Button in the center -->
+        <button class="sos-button" onclick="handleSOS()">SOS</button>
+    </div>
+
+    <script>
+        function handleSOS() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(sendLocation, showError);
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        }
+
+        function sendLocation(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            // Send the location data to the server via POST
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "send_sos.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    alert('SOS Alert Sent with your live location!');
+                }
+            };
+            xhr.send(`latitude=${latitude}&longitude=${longitude}`);
+        }
+
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("User denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    alert("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("An unknown error occurred.");
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
