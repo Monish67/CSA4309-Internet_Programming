@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>A Simple Form with JavaScript Validation</title>
+<script type="text/javascript">
+function validate_form() {
+  let valid = true;
+  const nameField = document.contact_form.contact_name;
+  const name = nameField.value;
+
+  // Check if the name field is empty
+  if (name === "") {
+    alert("Please fill in the 'Your Name' box.");
+    valid = false;
+  } 
+  // Check if a number is entered instead of a name
+  else if (!isNaN(name)) {
+    alert("Please enter a valid name, not a number.");
+    nameField.value = "";  // Clear the field if a number is entered
+    valid = false;
+  } 
+  // If valid, display success message
+  else {
+    alert("Successful");
+  }
+
+  return valid;
+}
+</script>
+</head>
+<body bgcolor="#FFFF56">
+<form name="contact_form" method="post" onSubmit="return validate_form();">
+<h1>Please Enter Your Name</h1>
+<p>Your Name: <input type="text" name="contact_name"></p>
+<p><input type="submit" name="send" value="Send Details"></p>
+</form> 
+</body> 
+</html>
